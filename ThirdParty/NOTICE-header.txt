@@ -1,0 +1,43 @@
+InputHalo - Third-party notices / 第三方开源组件声明
+
+InputHalo by LimxTeam
+佛山市壹贰冉冉科技有限公司
+Foshan Yier Ranran Technology Co., Ltd.
+
+InputHalo is proprietary software. The following components retain their own
+copyright and license terms. No endorsement by their authors is implied.
+InputHalo 为专有软件；以下第三方组件继续适用其各自许可证。
+
+Runtime / compiled dependencies:
+- spdlog 1.15.3: MIT; logging.
+  https://github.com/gabime/spdlog/tree/v1.15.3
+- fmt 11.2.0 (bundled with spdlog): MIT with optional exception; formatting.
+  License copied from the bundled format.h, not from an unrelated release.
+  https://github.com/gabime/spdlog/tree/v1.15.3/include/spdlog/fmt/bundled
+- nlohmann/json 3.12.0: MIT; JSON settings.
+  https://github.com/nlohmann/json/tree/v3.12.0
+- FreeType 2.14.3: used under the FreeType License (FTL), not the GPL alternative.
+  Additional BDF, PCF, hash and bundled zlib notices are included below.
+  https://freetype.org/
+- HarfBuzz 14.2.0: Old MIT; text shaping. Microsoft USE notice also included.
+  https://github.com/harfbuzz/harfbuzz/tree/14.2.0
+- Volk: source supplied by Vulkan SDK 1.4.357.0; MIT; Vulkan function loading.
+  https://github.com/zeux/volk
+- Vulkan-Headers 1.4.357: the used C API headers are Apache-2.0 OR MIT;
+  InputHalo elects MIT for those dual-licensed headers.
+  Copyright 2015-2026 The Khronos Group Inc.
+  https://github.com/KhronosGroup/Vulkan-Headers/tree/v1.4.357
+
+Portions of this software are copyright © 2026 The FreeType Project
+(https://freetype.org). All rights reserved.
+
+Fonts are loaded from the user's Windows installation. Windows font files
+are not bundled with InputHalo; their respective license terms continue to apply.
+字体从用户的 Windows 系统读取，InputHalo 不随程序分发 Windows 字体文件。
+
+Build-time tools (not bundled as application runtime executables):
+CMake, Microsoft Visual C++ / Windows SDK, Vulkan SDK / DXC and Node.js / sharp
+(icon generation). Their tool distributions retain their own license terms.
+Vulkan loader and graphics drivers are provided by the user's system.
+
+Full license texts follow. Original third-party notices are retained verbatim.

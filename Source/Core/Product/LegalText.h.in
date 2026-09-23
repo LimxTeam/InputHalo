@@ -1,0 +1,7 @@
+#pragma once
+#include <string_view>
+namespace ih::product {
+inline constexpr std::string_view SoftwareLicense=R"IHLEGAL(@IH_LICENSE_TEXT@)IHLEGAL";
+inline constexpr std::string_view ThirdPartyNotices=R"IHLEGAL(@IH_NOTICES_TEXT@)IHLEGAL";
+inline constexpr std::string_view PrivacyNotice=R"IHLEGAL(@IH_PRIVACY_TEXT@)IHLEGAL";
+}

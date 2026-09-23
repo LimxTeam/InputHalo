@@ -1,0 +1,22 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 4, "minor": 4, "patch": 3 },
+  "configurePresets": [
+    {
+      "name": "windows-msvc",
+      "displayName": "Windows x64 (Visual Studio 2026)",
+      "generator": "Visual Studio 18 2026",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/Build/windows-msvc",
+      "cacheVariables": { "INPUTHALO_BUILD_TESTS": "ON" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "debug", "configurePreset": "windows-msvc", "configuration": "Debug" },
+    { "name": "release", "configurePreset": "windows-msvc", "configuration": "Release" }
+  ],
+  "testPresets": [
+    { "name": "debug", "configurePreset": "windows-msvc", "configuration": "Debug", "output": { "outputOnFailure": true } },
+    { "name": "release", "configurePreset": "windows-msvc", "configuration": "Release", "output": { "outputOnFailure": true } }
+  ]
+}

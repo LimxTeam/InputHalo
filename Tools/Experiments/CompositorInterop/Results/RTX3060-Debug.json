@@ -1,0 +1,84 @@
+{
+  "activation_preserved": true,
+  "click_through_acceptance": "requires_cross_process_input_test",
+  "frames_per_monitor": 121,
+  "gpu": "NVIDIA GeForce RTX 3060",
+  "gpu_test_passed": true,
+  "path": "Vulkan compute -> shared D3D11 texture -> GPU copy -> DirectComposition",
+  "targets": [
+    {
+      "bounds_px": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "center_rgba": [
+        99,
+        195,
+        170,
+        217
+      ],
+      "corner_rgba": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "desktop_after_colorref": [
+        11914347,
+        4734005,
+        4734005
+      ],
+      "desktop_before_colorref": [
+        4734005,
+        4734005,
+        4734005
+      ],
+      "desktop_center_changed": true,
+      "desktop_outside_circle_unchanged": true,
+      "dpi": 96,
+      "extended_styles": 136839336,
+      "pixels_verified": true
+    },
+    {
+      "bounds_px": [
+        9,
+        1080,
+        1929,
+        2160
+      ],
+      "center_rgba": [
+        99,
+        195,
+        170,
+        217
+      ],
+      "corner_rgba": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "desktop_after_colorref": [
+        11191139,
+        0,
+        0
+      ],
+      "desktop_before_colorref": [
+        0,
+        0,
+        0
+      ],
+      "desktop_center_changed": true,
+      "desktop_outside_circle_unchanged": true,
+      "dpi": 96,
+      "extended_styles": 136839336,
+      "pixels_verified": true
+    }
+  ],
+  "validation_enabled": true,
+  "validation_errors": 0,
+  "validation_warnings": 0,
+  "visual_acceptance": "requires_desktop_inspection"
+}

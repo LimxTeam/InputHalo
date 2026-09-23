@@ -1,0 +1,32 @@
+InputHalo 专有软件权利声明 / Proprietary Software Notice
+
+Copyright (c) 2026 佛山市壹贰冉冉科技有限公司
+Foshan Yier Ranran Technology Co., Ltd. All rights reserved.
+产品 / Product: InputHalo
+开发团队 / Development team: LimxTeam
+
+InputHalo 的原创源代码、程序图标及其他原创资源为专有内容，保留所有权利。
+本声明不授予对这些专有内容进行复制、修改、再分发、转售或再许可的权利。
+软件使用授权、授权范围及服务条件以权利人另行提供的有效授权协议为准。
+本声明本身不构成购买凭证、激活凭证、付费订阅或开源授权。
+法律明确赋予且不得排除的权利不受本声明限制。
+
+第三方组件不属于上述专有权利声明的范围；其权利人保留各自的权利，
+使用、复制、修改及分发条件以对应许可证为准。第三方许可证赋予的权利
+不因 InputHalo 的专有授权而受到限制。详见 THIRD_PARTY_NOTICES.txt
+及 ThirdParty/licenses/ 中保留的版权声明和许可证原文。
+
+InputHalo's original source code, application icons and other original assets
+are proprietary. All rights are reserved. This notice does not grant rights
+to copy, modify, redistribute, resell or sublicense that proprietary material.
+Software use rights, scope of authorization and service terms are governed by
+a separate valid authorization agreement provided by the rights holder.
+This notice is not proof of purchase, activation, a paid subscription or an
+open-source license. Rights that cannot lawfully be excluded are unaffected.
+
+Third-party components are excluded from the proprietary reservation above.
+Their respective copyright holders retain their rights. Those components
+remain subject to their own license terms, and rights granted under those
+licenses are not restricted by InputHalo's proprietary licensing.
+See THIRD_PARTY_NOTICES.txt and ThirdParty/licenses/ for the retained notices
+and full third-party license texts.

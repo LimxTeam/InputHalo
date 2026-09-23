@@ -1,0 +1,9 @@
+/Build/
+/.vs/
+/CMakeUserPresets.json
+*.user
+*.suo
+/vulkan-smoke-logs/
+/overlay-smoke-logs/
+/renderer2d-smoke-logs/
+/renderer2d-results/

@@ -1,0 +1,36 @@
+InputHalo — LimxTeam
+佛山市壹贰冉冉科技有限公司
+Foshan Yier Ranran Technology Co., Ltd.
+
+当前为 Preview 预览版本。
+
+系统要求：Windows 10（1809 或更高版本）/ Windows 11，x64。
+需要支持 Vulkan 1.4 的显卡与驱动。不需要安装 Vulkan SDK。
+本安装包不会安装显卡驱动；运行库已静态链接。
+
+默认仅为当前用户安装，无需管理员权限。
+升级前请从系统托盘菜单退出 InputHalo。关闭设置窗口只会收起到托盘。
+安装及卸载会保留 %LOCALAPPDATA%\InputHalo 下的设置、方案和日志。
+
+普通桌面上的光圈已增加独立位置采样；Windows 安全桌面的权限提示期间，
+InputHalo 会暂停提示，并在返回普通桌面后恢复。
+
+软件许可、隐私说明及第三方开源声明均随安装保留，也可在“关于”页面阅读。
+本安装包尚未进行公司代码签名，Windows 不会将公司名称显示为已验证发布者。
+
+This is a Preview build.
+Requires Windows 10 version 1809 or later / Windows 11, x64, and a Vulkan 1.4
+capable graphics driver. The Vulkan SDK is not required. Graphics drivers are
+not included; the C++ runtime is statically linked.
+
+Installs for the current user without administrator privileges. Exit InputHalo
+from its system tray menu before upgrading. Closing Settings only hides it.
+Installation and removal preserve settings, profiles and logs in
+%LOCALAPPDATA%\InputHalo.
+
+Cursor tracking includes independent position sampling on the normal desktop.
+Overlays pause on the Windows secure desktop and resume when it is accessible.
+License, privacy and third-party notices are included and available in About.
+This installer does not yet carry the company's trusted code signature.
+
+Installer created with Inno Setup (https://jrsoftware.org/).

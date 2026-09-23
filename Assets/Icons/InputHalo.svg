@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <title>InputHalo — Input Pulse</title>
+  <desc>Three interlocking key blocks form an asymmetric H; an amber impulse indicates input.</desc>
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="#171923"/>
+  <rect x="52" y="96" width="44" height="108" rx="12" fill="#080B12"/>
+  <rect x="160" y="64" width="44" height="140" rx="12" fill="#080B12"/>
+  <rect x="80" y="120" width="96" height="32" rx="10" fill="#AA9AFF"/>
+  <rect x="52" y="84" width="44" height="108" rx="12" fill="#F2F0FF"/>
+  <rect x="160" y="52" width="44" height="140" rx="12" fill="#AA9AFF"/>
+  <rect x="108" y="52" width="28" height="28" rx="8" fill="#FFCB78"/>
+</svg>

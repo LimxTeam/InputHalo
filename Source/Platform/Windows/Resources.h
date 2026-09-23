@@ -1,0 +1,1 @@
+#define IDI_INPUTHALO 101

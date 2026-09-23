@@ -1,0 +1,56 @@
+InputHalo 数据与隐私说明 / Data and Privacy Notice
+
+本说明适用于当前本地桌面版本。
+This notice describes the current local desktop build.
+
+开发团队：LimxTeam
+运营及权利主体：佛山市壹贰冉冉科技有限公司
+Foshan Yier Ranran Technology Co., Ltd.
+
+1. 为显示按键、鼠标操作和演示标注，应用通过 Windows Raw Input 接收输入事件。
+事件仅用于本地实时显示。按键历史和轨迹保留在内存中，过期或结束会话后清理；
+不写入配置、日志或其他历史文件，也不发送到服务器。
+默认“仅显示快捷键”不等同于密码框检测，组合键仍可能出现在屏幕上。
+可随时通过托盘菜单暂停提示。
+
+Input events are received through Windows Raw Input for local visualization.
+Transient input history and drawing state stay in memory and are discarded
+when expired or the session ends. Input history is not written to settings,
+logs or history files, and is not sent to a server. Shortcuts-only mode is not
+password-field detection. Shortcut keys can still appear on screen.
+Overlays can be paused from the tray menu.
+
+2. 设置保存在 %LOCALAPPDATA%\InputHalo\settings.json。
+运行日志保存在 %LOCALAPPDATA%\InputHalo\logs，用于记录启动、显卡和错误信息，
+不记录键盘输入内容。日志采用轮转，单份最大 5 MB，共 3 份。
+Settings are saved in %LOCALAPPDATA%\InputHalo\settings.json.
+Rotating logs in %LOCALAPPDATA%\InputHalo\logs contain startup, graphics-device
+and error information, not typed input. Up to three 5 MB log files are kept.
+
+3. 当前版本没有账户系统、广告、遥测、在线激活或自动更新网络请求。
+不会尝试绕过 Windows 安全桌面。不需要管理员权限。
+开启“开机启动”时，仅修改当前用户的启动项。
+The current build has no accounts, ads, telemetry, online activation or
+network-based update checks. It does not bypass the Windows secure desktop.
+It runs without administrator rights. Enabling startup registration changes
+only the current user's startup entry.
+
+4. Windows 截屏、录屏或第三方直播工具可能捕获屏幕上的提示和标注。
+请在演示敏感信息前暂停提示。本软件不承诺阻止其他程序录制屏幕。
+Windows and third-party capture or streaming tools may record visible overlays.
+Pause overlays before presenting sensitive information. InputHalo does not
+promise to prevent other programs from capturing the screen.
+
+5. 本地方案保存在 %LOCALAPPDATA%\InputHalo\profiles；导入、导出仅访问用户选择的 JSON 文件。
+方案包含显示和标注设置，不携带本机语言、开机启动及排除规则。
+应用排除保存用户指定的程序文件名，并在本地读取当前前台程序名称进行匹配；
+不会记录应用使用历史，也不读取应用中的文档内容。快捷键排除保存用户主动录入的组合键规则，
+不保存实际输入历史，仅隐藏提示，不拦截按键。无法读取前台程序名时，排除规则可能无法匹配。
+Local presets are stored in %LOCALAPPDATA%\InputHalo\profiles. Import and export
+access only JSON files selected by the user. Presets carry appearance and drawing
+settings, not machine-specific language, startup or exclusion preferences.
+Application exclusions store user-selected executable names and compare them
+locally with the foreground process. No application usage history or document
+content is recorded. Hidden-shortcut rules store explicitly configured combinations,
+not input history, and do not block keys. Exclusions may not match if Windows
+prevents reading the foreground process name.

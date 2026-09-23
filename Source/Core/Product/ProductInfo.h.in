@@ -1,0 +1,8 @@
+#pragma once
+#define IH_PRODUCT_NAME "InputHalo"
+#define IH_PRODUCT_VERSION "@PROJECT_VERSION@"
+#define IH_PRODUCT_CHANNEL "Preview"
+#define IH_TEAM_NAME "LimxTeam"
+#define IH_COMPANY_ZH "佛山市壹贰冉冉科技有限公司"
+#define IH_COMPANY_EN "Foshan Yier Ranran Technology Co., Ltd."
+#define IH_FILE_VERSION @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0

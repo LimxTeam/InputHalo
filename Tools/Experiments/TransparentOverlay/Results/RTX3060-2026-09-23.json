@@ -1,0 +1,312 @@
+{
+  "dwm_composition": true,
+  "dwm_hresult": 0,
+  "monitors": [
+    {
+      "bounds_px": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "primary": true,
+      "variants": [
+        {
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extended_styles": 134217896,
+          "variant": "plain_popup",
+          "visible": false
+        },
+        {
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extend_frame_hresult": 0,
+          "extended_styles": 134217896,
+          "variant": "extended_frame",
+          "visible": false
+        },
+        {
+          "blur_hresult": 0,
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extended_styles": 134217896,
+          "variant": "blur_region",
+          "visible": false
+        },
+        {
+          "blur_hresult": 0,
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extend_frame_hresult": 0,
+          "extended_styles": 134217896,
+          "variant": "extended_frame_and_blur",
+          "visible": false
+        },
+        {
+          "blur_hresult": 0,
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extended_styles": 134742184,
+          "variant": "layered_blur_region",
+          "visible": false
+        },
+        {
+          "blur_hresult": 0,
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extended_styles": 136315048,
+          "variant": "no_redirection_blur_region",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "bounds_px": [
+        9,
+        1080,
+        1929,
+        2160
+      ],
+      "primary": false,
+      "variants": [
+        {
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extended_styles": 134217896,
+          "variant": "plain_popup",
+          "visible": false
+        },
+        {
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extend_frame_hresult": 0,
+          "extended_styles": 134217896,
+          "variant": "extended_frame",
+          "visible": false
+        },
+        {
+          "blur_hresult": 0,
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extended_styles": 134217896,
+          "variant": "blur_region",
+          "visible": false
+        },
+        {
+          "blur_hresult": 0,
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extend_frame_hresult": 0,
+          "extended_styles": 134217896,
+          "variant": "extended_frame_and_blur",
+          "visible": false
+        },
+        {
+          "blur_hresult": 0,
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extended_styles": 134742184,
+          "variant": "layered_blur_region",
+          "visible": false
+        },
+        {
+          "blur_hresult": 0,
+          "devices": [
+            {
+              "api_version": 4211013,
+              "current_extent": [
+                1920,
+                1080
+              ],
+              "device_id": 9476,
+              "driver_version": 2480242688,
+              "graphics_present": true,
+              "name": "NVIDIA GeForce RTX 3060",
+              "selected_alpha": "NONE",
+              "supported_composite_alpha": 1,
+              "vendor_id": 4318
+            }
+          ],
+          "dpi": 96,
+          "extended_styles": 136315048,
+          "variant": "no_redirection_blur_region",
+          "visible": false
+        }
+      ]
+    }
+  ],
+  "result": "OVERLAY_COMPATIBILITY_ERROR",
+  "sdk": "1.4.357.0",
+  "stage": "capability_probe_only",
+  "transparent_mode_candidate": false,
+  "validation_enabled": true,
+  "validation_errors": 0,
+  "validation_warnings": 0,
+  "visual_acceptance_passed": false
+}
