@@ -1,3 +1,35 @@
+/*******************************************************************************
+ * 文件: VulkanContext.cpp
+ * 创建时间: 2026-09-23
+ * 创建者: LimxTeam
+ *
+ * 功能描述:
+ *   Vulkan 上下文实现：Volk 初始化、Instance/扩展/验证层创建、Win32 Surface 创建、
+ *   物理设备打分选型、队列族与特性协商、Device 创建，以及错误检查/对象命名/资源释放。
+ *   不涉及复杂算法；设备选型为加权枚举 O(GPU×family)。
+ *   以运行时扩展/特性探测换取最大可移植性，缺失能力时优雅降级而非硬失败。
+ *
+ * 设计哲学:
+ *   初始化包在 try/catch 中并以 std::expected 返回，保证构造失败时不残留半初始化状态；
+ *   打分优先独显、再要求图形+present，支持外部内存合成者额外加分；
+ *   验证层仅在 IH_VULKAN_VALIDATION 下启用，Release 构建零开销。
+ *
+ * 技术特性:
+ *   - Loader 协商: 先 volkInitialize 再要求实例版本 >= 1.4。
+ *   - 扩展按需启用: surface maintenance / debug utils / swapchain maintenance / external memory。
+ *   - Synchronization2 + DynamicRendering 为硬性要求（管线核心依赖）。
+ *   - 错误路由: Check() 捕获 DEVICE_LOST 并置标志，其余经 CheckVk 抛异常。
+ *
+ * 依赖关系:
+ *   内部: Limx::ih::render、VulkanError.h(CheckVk)
+ *   外部: Vulkan 1.4、Volk、spdlog、Win32 surface
+ *
+ * 注意事项:
+ *   找不到满足 Vulkan1.4+动态渲染+同步2+交换链的 GPU 会抛错。
+ *   回调内绝不向外抛异常（catch(...) 吞掉），避免穿越 Vulkan 回调栈展开。
+ *   Shutdown 顺序：device -> surface -> messenger -> instance。
+ *
+ ******************************************************************************/
 #include "RHI/Vulkan/VulkanContext.h"
 #include "RHI/Vulkan/VulkanError.h"
 #include <spdlog/spdlog.h>
@@ -6,6 +38,7 @@
 #include <vector>
 
 namespace ih::render {
+// DebugCallback: 验证层回调；错误/警告分别计数并写日志；catch 所有异常防止跨回调展开。
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanContext::DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT severity,
     VkDebugUtilsMessageTypeFlagsEXT, const VkDebugUtilsMessengerCallbackDataEXT* data, void* user) {
     auto& self = *static_cast<VulkanContext*>(user);
@@ -21,11 +54,14 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanContext::DebugCallback(VkDebugUtilsMessageS
     return VK_FALSE;
 }
 
+// Initialize: 完整初始化 Vulkan 栈，失败以 std::unexpected 返回错误描述。
 std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, HWND window, bool requestComposition) {
     try {
+// 初始化 Volk 加载器并校验运行时 Vulkan 版本 >= 1.4。
         CheckVk(volkInitialize(), "volkInitialize");
         if (volkGetInstanceVersion() < VK_API_VERSION_1_4)
             throw std::runtime_error("Vulkan 1.4 loader is required");
+// 默认启用 surface 与 Win32 surface 扩展；按需追加 surface maintenance 扩展。
         std::vector<const char*> extensions{VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_WIN32_SURFACE_EXTENSION_NAME};
         uint32_t instanceExtensionCount{};
         CheckVk(vkEnumerateInstanceExtensionProperties(nullptr, &instanceExtensionCount, nullptr), "Instance extensions");
@@ -40,6 +76,7 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
             extensions.push_back(VK_EXT_SURFACE_MAINTENANCE_1_EXTENSION_NAME);
             extensions.push_back(VK_KHR_GET_SURFACE_CAPABILITIES_2_EXTENSION_NAME);
         }
+// 验证层（仅调试构建）：枚举层、确认存在 Khronos 验证层后启用 debug utils。
         const char* layer = "VK_LAYER_KHRONOS_validation";
         VkDebugUtilsMessengerCreateInfoEXT debug{VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT};
         debug.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
@@ -56,6 +93,7 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
                 throw std::runtime_error("Debug requires VK_LAYER_KHRONOS_validation; install the Vulkan SDK validation component");
             extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
         }
+// 填写 ApplicationInfo 并创建 Instance；调试构建挂验证层与调试信使。
         VkApplicationInfo app{VK_STRUCTURE_TYPE_APPLICATION_INFO};
         app.pApplicationName = "InputHalo";
         app.applicationVersion = VK_MAKE_API_VERSION(0, 0, 1, 0);
@@ -70,6 +108,7 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
             create.pNext = &debug;
         }
         CheckVk(vkCreateInstance(&create, nullptr, &m_instance), "vkCreateInstance");
+// instance 创建后加载实例级函数指针；再创建 Win32 surface。
         volkLoadInstance(m_instance);
         if constexpr (IH_VULKAN_VALIDATION)
             CheckVk(vkCreateDebugUtilsMessengerEXT(m_instance, &debug, nullptr, &m_messenger), "Debug messenger");
@@ -78,11 +117,13 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
         surface.hwnd = window;
         CheckVk(vkCreateWin32SurfaceKHR(m_instance, &surface, nullptr, &m_surface), "Win32 surface");
 
+// 枚举物理 GPU，逐个评估是否满足本引擎的硬性/软性需求。
         uint32_t count{};
         CheckVk(vkEnumeratePhysicalDevices(m_instance, &count, nullptr), "Enumerate GPUs");
         std::vector<VkPhysicalDevice> devices(count);
         CheckVk(vkEnumeratePhysicalDevices(m_instance, &count, devices.data()), "Enumerate GPUs");
         int bestScore = -1;
+// 设备打分：要求 Vulkan1.4、动态渲染、synchronization2、交换链扩展。
         for (const auto candidate : devices) {
             VkPhysicalDeviceProperties properties{};
             vkGetPhysicalDeviceProperties(candidate, &properties);
@@ -97,6 +138,7 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
             std::vector<VkExtensionProperties> deviceExtensions(extensionCount);
             CheckVk(vkEnumerateDeviceExtensionProperties(candidate, nullptr, &extensionCount, deviceExtensions.data()), "Device extensions");
             if (std::ranges::none_of(deviceExtensions, [](const auto& e) { return std::strcmp(e.extensionName, VK_KHR_SWAPCHAIN_EXTENSION_NAME) == 0; })) continue;
+// 若请求合成，进一步探测外部内存(Win32)+keyed mutex+D3D11 可导入格式支持。
             bool composition = requestComposition;
             for (const auto* name : {VK_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME, VK_KHR_WIN32_KEYED_MUTEX_EXTENSION_NAME})
                 composition &= std::ranges::any_of(deviceExtensions, [&](const auto& e) { return std::strcmp(e.extensionName, name) == 0; });
@@ -121,6 +163,7 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
                 composition = id.deviceLUIDValid && status == VK_SUCCESS &&
                     (imported.externalMemoryProperties.externalMemoryFeatures & VK_EXTERNAL_MEMORY_FEATURE_IMPORTABLE_BIT);
             }
+// 遍历队列族，挑出支持 present 且含图形能力的最高分组作为展示队列族。
             uint32_t familyCount{};
             vkGetPhysicalDeviceQueueFamilyProperties(candidate, &familyCount, nullptr);
             std::vector<VkQueueFamilyProperties> families(familyCount);
@@ -142,6 +185,7 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
             }
         }
         if (!m_physicalDevice) throw std::runtime_error("No Vulkan 1.4 GPU with graphics/present, dynamic rendering and synchronization2");
+// 若启用 present fences，再次确认 swapchainMaintenance1 特性真实可用。
         VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT maintenance{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SWAPCHAIN_MAINTENANCE_1_FEATURES_EXT};
         if (m_presentFences) {
             VkPhysicalDeviceFeatures2 supported{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
@@ -149,6 +193,7 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
             vkGetPhysicalDeviceFeatures2(m_physicalDevice, &supported);
             m_presentFences = maintenance.swapchainMaintenance1 == VK_TRUE;
         }
+// 创建逻辑设备：启用动态渲染/同步2，按能力挂外部内存与交换链维护扩展。
         const float priority = 1.0f;
         VkDeviceQueueCreateInfo queue{VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO};
         queue.queueFamilyIndex = m_queueFamily;
@@ -170,6 +215,7 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
         device.pQueueCreateInfos = &queue;
         device.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
         device.ppEnabledExtensionNames = deviceExtensions.data();
+// device 创建后加载设备级函数指针，取队列并给设备/队列打调试名。
         CheckVk(vkCreateDevice(m_physicalDevice, &device, nullptr, &m_device), "vkCreateDevice");
         volkLoadDevice(m_device);
         vkGetDeviceQueue(m_device, m_queueFamily, 0, &m_queue);
@@ -185,11 +231,13 @@ std::expected<void, std::string> VulkanContext::Initialize(HINSTANCE instance, H
     } catch (const std::exception& error) { return std::unexpected(error.what()); }
 }
 
+// Check: 包装 CheckVk，额外把 DEVICE_LOST 记为永久设备丢失状态。
 void VulkanContext::Check(VkResult result, const char* operation) {
     if (result == VK_ERROR_DEVICE_LOST) m_deviceLost = true;
     CheckVk(result, operation);
 }
 
+// Name: 仅在调试构建设置 Vulkan 对象调试名，Release 为空操作。
 void VulkanContext::Name(VkObjectType type, uint64_t handle, const char* name) const {
     if constexpr (IH_VULKAN_VALIDATION) {
         if (!vkSetDebugUtilsObjectNameEXT) return;
@@ -201,7 +249,9 @@ void VulkanContext::Name(VkObjectType type, uint64_t handle, const char* name) c
     }
 }
 
+// 析构转交给 Shutdown，保证幂等释放。
 VulkanContext::~VulkanContext() { Shutdown(); }
+// Shutdown: 按 device->surface->messenger->instance 顺序释放，并输出验证层统计。
 void VulkanContext::Shutdown() noexcept {
     if (m_device) { vkDeviceWaitIdle(m_device); vkDestroyDevice(m_device, nullptr); m_device = {}; }
     if (m_surface) { vkDestroySurfaceKHR(m_instance, m_surface, nullptr); m_surface = {}; }

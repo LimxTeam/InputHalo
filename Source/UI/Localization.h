@@ -1,11 +1,40 @@
+/*******************************************************************************
+ * 文件: Localization.h
+ * 创建时间: 2026-09-23
+ * 创建者: LimxTeam
+ *
+ * 功能描述:
+ *   内联 Translate：英文 UI 文案/语言代码到简体中文的静态查表。
+ *   命中返回中文，未命中原样返回；chinese 为 false 时直接透传。
+ *   复杂度: O(n) 线性查表，n 为词条数。
+ *
+ * 设计哲学:
+ *   词条为编译期静态 pair 数组，无运行时分配、无外部资源文件，
+ *   便于离线裁剪；仅中英双语，英文键即默认回退文本。
+ *
+ * 技术特性:
+ *   - 同时识别 zh-CN / en 语言代码
+ *   - 未命中回退原文，新增 UI 文案可直接先用英文
+ *
+ * 依赖关系:
+ *   外部: <string_view>、<utility>
+ *
+ * 注意事项:
+ *   仅中英双语；新增词条需同时补英文键与中文值。
+ ******************************************************************************/
 #pragma once
 #include <string_view>
 #include <utility>
+// InputHalo UI 层命名空间。
 namespace ih::ui {
+// 翻译入口：text 为英文键或语言代码，chinese 决定是否输出中文。
 inline std::string_view Translate(std::string_view text,bool chinese){
+// 语言代码映射。
  if(text=="zh-CN")return "简体中文";
  if(text=="en"||text=="En")return "English";
+// 非中文模式直接返回原文。
  if(!chinese)return text;
+// 静态词条表：英文 -> 简体中文。
  static constexpr std::pair<std::string_view,std::string_view> entries[]={
  {"Annotations","标注"},{"Presets","配置方案"},{"Exclusions","排除规则"},
  {"Hold to draw. Right-click to undo. Release to clear.","按住快捷键绘制，右键撤销上一笔，松开清空。最多保留 64 笔。"},
@@ -92,7 +121,9 @@ inline std::string_view Translate(std::string_view text,bool chinese){
  {"Could not update startup preference","无法更新开机启动设置"},{"Could not save preferences","无法保存设置"},
  {"Settings","设置"},{"Close to tray","关闭到托盘"},{"Minimize","最小化"},{"Maximize","最大化"},{"Restore","还原"}
  };
+// 线性匹配，命中即返回中文。
  for(const auto& entry:entries)if(entry.first==text)return entry.second;
+// 未命中原样返回。
  return text;
 }
 }

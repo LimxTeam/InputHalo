@@ -1,7 +1,43 @@
+/*******************************************************************************
+ * 文件: LegalText.h.in
+ * 创建时间: 2026-09-23
+ * 创建者: LimxTeam
+ *
+ * 功能描述:
+ *   法律文本头文件模板（CMake .in 模板）。定义三个字符串_view 常量：
+ *   SoftwareLicense（软件许可协议）、ThirdPartyNotices（第三方声明）、
+ *   PrivacyNotice（隐私政策）。占位符 @IH_LICENSE_TEXT@ 等由 CMake 配置时
+ *   从外部文本文件注入。
+ *   算法复杂度：不涉及复杂算法。
+ *   空间-时间权衡：constexpr string_view 零运行时开销。
+ *
+ * 设计哲学:
+ *   法律文本作为编译期常量嵌入二进制，避免运行时读取外部文件。
+ *   使用 CMake 模板机制，将独立维护的法律文本文件在构建时注入。
+ *   raw string literal 避免转义问题。
+ *
+ * 技术特性:
+ *   - CMake 模板: @VAR@ 占位符在 configure_file 时替换。
+ *   - constexpr string_view: 编译期常量，零拷贝。
+ *   - Raw string: R"IHLEGAL(... )IHLEGAL 避免转义引号与反斜杠。
+ *
+ * 依赖关系:
+ *   外部: <string_view>
+ *
+ * 注意事项:
+ *   - 此文件为模板，不直接编译，由 CMake configure_file 生成 LegalText.h。
+ *
+ ******************************************************************************/
+// 头文件保护
 #pragma once
+// 字符串视图
 #include <string_view>
+// ih::product 产品信息命名空间
 namespace ih::product {
+// SoftwareLicense — 软件许可协议文本（CMake 注入）
 inline constexpr std::string_view SoftwareLicense=R"IHLEGAL(@IH_LICENSE_TEXT@)IHLEGAL";
+// ThirdPartyNotices — 第三方开源声明文本（CMake 注入）
 inline constexpr std::string_view ThirdPartyNotices=R"IHLEGAL(@IH_NOTICES_TEXT@)IHLEGAL";
+// PrivacyNotice — 隐私政策文本（CMake 注入）
 inline constexpr std::string_view PrivacyNotice=R"IHLEGAL(@IH_PRIVACY_TEXT@)IHLEGAL";
 }

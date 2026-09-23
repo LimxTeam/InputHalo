@@ -1,8 +1,44 @@
+/*******************************************************************************
+ * 文件: ProductInfo.h.in
+ * 创建时间: 2026-09-23
+ * 创建者: LimxTeam
+ *
+ * 功能描述:
+ *   产品信息宏定义头文件模板（CMake .in 模板）。定义产品名称、版本号、
+ *   发布渠道、团队名、公司中英文名称、文件版本号等宏。
+ *   版本号占位符 @PROJECT_VERSION@ 等由 CMake 从项目配置注入。
+ *   算法复杂度：不涉及复杂算法。
+ *   空间-时间权衡：宏定义零运行时开销。
+ *
+ * 设计哲学:
+ *   产品信息集中在一个头文件中，便于统一维护。使用 CMake 模板将构建系统的
+ *   版本信息注入 C++ 代码，确保二进制中的版本号与构建配置一致。
+ *
+ * 技术特性:
+ *   - CMake 模板: @VAR@ 占位符在 configure_file 时替换。
+ *   - 宏定义: 编译期常量，可用于日志、About 对话框、Windows 资源文件等。
+ *
+ * 依赖关系:
+ *   外部: 无
+ *
+ * 注意事项:
+ *   - 此文件为模板，不直接编译，由 CMake configure_file 生成 ProductInfo.h。
+ *   - IH_FILE_VERSION 用于 Windows 版本资源文件（.rc）。
+ *
+ ******************************************************************************/
+// 头文件保护
 #pragma once
+// IH_PRODUCT_NAME — 产品名称
 #define IH_PRODUCT_NAME "InputHalo"
+// IH_PRODUCT_VERSION — 产品版本号（CMake 注入）
 #define IH_PRODUCT_VERSION "@PROJECT_VERSION@"
+// IH_PRODUCT_CHANNEL — 发布渠道（Preview/Beta/Release）
 #define IH_PRODUCT_CHANNEL "Preview"
+// IH_TEAM_NAME — 团队名称
 #define IH_TEAM_NAME "LimxTeam"
+// IH_COMPANY_ZH — 公司中文名称
 #define IH_COMPANY_ZH "佛山市壹贰冉冉科技有限公司"
+// IH_COMPANY_EN — 公司英文名称
 #define IH_COMPANY_EN "Foshan Yier Ranran Technology Co., Ltd."
+// IH_FILE_VERSION — 文件版本号（四段式，用于 Windows 资源文件）
 #define IH_FILE_VERSION @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
